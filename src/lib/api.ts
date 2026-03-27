@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "https://url-shortner-backend-t53i.onrender.com";
+const API_BASE = import.meta.env.API_BASE_URL || "http://localhost:5000";
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -23,7 +23,7 @@ api.interceptors.response.use(
       window.location.href = "/login";
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export interface RegisterData {
@@ -69,7 +69,8 @@ export const urlApi = {
   getAll: () => api.get<ShortUrl[]>("/api/url"),
   create: (data: CreateUrlData) => api.post("/api/url", data),
   delete: (shortCode: string) => api.delete(`/api/url/${shortCode}`),
-  analytics: (shortCode: string) => api.get<AnalyticsData>(`/api/url/${shortCode}/analytics`),
+  analytics: (shortCode: string) =>
+    api.get<AnalyticsData>(`/api/url/${shortCode}/analytics`),
 };
 
 export default api;

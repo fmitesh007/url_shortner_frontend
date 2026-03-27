@@ -92,6 +92,8 @@ export default function Login() {
           variant="outline"
           className="w-full rounded-xl"
           onClick={() => {
+            localStorage.setItem("token", "demo-token");
+            localStorage.setItem("user", JSON.stringify({ name: "Demo User", email: "demo@sniplink.com" }));
             login("demo-token", { name: "Demo User", email: "demo@sniplink.com" });
             toast({ title: "Welcome to the demo!" });
             navigate("/dashboard");

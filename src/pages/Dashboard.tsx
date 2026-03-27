@@ -14,10 +14,10 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("links");
   const [analyticsCode, setAnalyticsCode] = useState<string>("");
-  const demo = isDemo();
 
   const fetchUrls = useCallback(async () => {
     setLoading(true);
+    const demo = isDemo();
     if (demo) {
       setUrls(DEMO_URLS);
       setLoading(false);
@@ -31,7 +31,7 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  }, [demo]);
+  }, []);
 
   useEffect(() => {
     fetchUrls();
@@ -47,7 +47,7 @@ export default function Dashboard() {
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="mb-6 flex items-center gap-3">
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          {demo && (
+          {isDemo() && (
             <Badge variant="secondary" className="text-xs">
               Demo Mode
             </Badge>
@@ -68,13 +68,13 @@ export default function Dashboard() {
           </TabsList>
 
           <TabsContent value="links">
-            <MyLinks urls={urls} loading={loading} onRefresh={fetchUrls} onViewAnalytics={handleViewAnalytics} isDemo={demo} />
+            <MyLinks urls={urls} loading={loading} onRefresh={fetchUrls} onViewAnalytics={handleViewAnalytics} isDemo={isDemo()} />
           </TabsContent>
           <TabsContent value="create">
-            <CreateLink onCreated={fetchUrls} isDemo={demo} />
+            <CreateLink onCreated={fetchUrls} isDemo={isDemo()} />
           </TabsContent>
           <TabsContent value="analytics">
-            <AnalyticsTab urls={urls} initialShortCode={analyticsCode} isDemo={demo} />
+            <AnalyticsTab urls={urls} initialShortCode={analyticsCode} isDemo={isDemo()} />
           </TabsContent>
         </Tabs>
       </motion.div>
